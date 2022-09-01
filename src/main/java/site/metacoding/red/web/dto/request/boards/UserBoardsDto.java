@@ -5,8 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class WriteDto {
+public class UserBoardsDto {
 	private String title;
 	private String content;
-	private Integer usersId;
+	private String date;
+	private String username;
 }
