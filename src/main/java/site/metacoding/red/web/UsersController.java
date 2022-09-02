@@ -2,9 +2,12 @@ package site.metacoding.red.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.domain.users.UsersDao;
 import site.metacoding.red.web.dto.request.users.JoinDto;
+import site.metacoding.red.web.dto.request.users.LoginDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
 import site.metacoding.red.web.dto.response.RespDto;
 
@@ -74,6 +78,13 @@ public class UsersController {
 		usersPS.패스워드수정(password);
 		usersDao.update(usersPS);
 		return new RespDto<>(1, "비밀번호수정완료", null);
+	}
+	
+	@PostMapping("/users/login/{id}")
+	public RespDto<?> login(@PathVariable Integer id, HttpSession session) {
+		Users usersPS = usersDao.findById(id);
+		session.setAttribute("username", usersPS.getUsername());
+		return new RespDto<>(1, "로그인 완료", null);
 	}
 	
 }

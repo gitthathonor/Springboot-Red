@@ -4,14 +4,28 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.red.domain.boards.BoardsDao">
 	
+	
+	
+	
 	<insert id="insert" >
 		INSERT INTO boards(id, title, content, usersId, createdAt) 
 		VALUES(boards_seq.nextval, #{title}, #{content}, #{usersId}, sysdate)
 	</insert>
+	
 
 	<select id="findById" resultType="site.metacoding.red.domain.boards.Boards">
 		SELECT * FROM boards WHERE id = #{id}
 	</select>
+	
+	<select id="findByIdtoDetail" resultType="site.metacoding.red.domain.boards.mapper.BoardsDetail">
+		SELECT b.id, b.title, b.content, b.createdAt, b.usersId, u.username, u.password, u.email
+		FROM boards b INNER JOIN users u
+		ON b.usersId = u.id
+		WHERE b.id = #{id}
+	</select>
+	
+	
+	
 	
 	<select id="findAll" resultType="site.metacoding.red.domain.boards.Boards">
 		SELECT * FROM boards ORDER BY id DESC
@@ -25,8 +39,14 @@
 		UPDATE boards SET title = #{title}, content = #{content} WHERE id = #{id}
 	</update>
 	
-	<select id="findAllByUser">
-		SELECT b.title, b.content, to_char(b.createdAt, 'YY-MM-DD HH24:MI:SS'), u.username FROM boards b LEFT JOIN users u ON b.usersID = u.id WHERE u.id = #{id};
+	<select id="findAllByUser" resultType="site.metacoding.red.web.dto.request.boards.UserBoardsDto">
+		SELECT b.title title, b.content content, to_char(b.createdAt, 'YY-MM-DD HH24:MI:SS') writeDate, u.username username FROM boards b INNER JOIN users u ON b.usersID = u.id WHERE u.id = #{id}
+		ORDER BY b.id DESC
 	</select>
+	
+	<select id="findAllWithUsername" resultType="site.metacoding.red.domain.boards.BoardsWithUsername">
+		SELECT b.*, u.username username FROM boards b INNER JOIN users u ON b.usersId = u.id ORDER BY b.id DESC
+	</select>
+	
 	
 </mapper>

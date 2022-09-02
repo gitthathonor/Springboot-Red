@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.red.web.dto.request.users.LoginDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
 
 @Getter
@@ -25,7 +26,10 @@ public class Users {
 		this.email = updateDto.getEmail();
 	}
 	
-	
-	
+	public void validateId(LoginDto loginDto) {
+		if(this.username == loginDto.getUsername() && this.password == loginDto.getPassword()) {
+			System.out.println("로그인 되었습니다!");
+		}
+	}
 	
 }

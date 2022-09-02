@@ -3,6 +3,7 @@ package site.metacoding.red.domain.users;
 import java.util.List;
 
 import site.metacoding.red.web.dto.request.users.JoinDto;
+import site.metacoding.red.web.dto.request.users.LoginDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
 
 public interface UsersDao {
@@ -11,4 +12,5 @@ public interface UsersDao {
 	public List<Users> findAll();
 	public void deleteById(Integer id);
 	public void update(Users user);
+	//public LoginDto findByUsername(Integer id);
 }
